@@ -1,0 +1,48 @@
+
+count = 5
+p= 0
+
+x= np.array([
+    [0.2],
+    [0.3],
+    [0.3],
+    [0.6],
+    [0.8],
+    [0.4],
+    [0.1],
+    [0.1],
+    [0.6]
+])
+
+
+
+a = 2
+nc = 100
+
+networkR = NN(vxR[0],r[0],10,nc)
+networkG = NN(vxG[0],g[0],10,nc)
+networkB = NN(vxB[0],b[0],10,nc)
+print('Leaning...')
+for i in range(120):
+    for h in range(hcnt):
+        networkR.Teach(vxR[h], r[h])
+        networkG.Teach(vxG[h], g[h])
+        networkB.Teach(vxB[h], b[h])
+    print(i)
+
+f1 = []
+f2 = []
+f3 = []
+
+for j in range(3):
+    f1.append(0)
+    f2.append(0)
+    f3.append(0)
+    h1, f1[j] = networkR.feedforward(vxR[j])
+    h2, f2[j] = networkG.feedforward(vxG[j])
+    h3, f3[j] = networkB.feedforward(vxB[j])
+
+    oi = DD.ConToImg(f1[j][nc+1],f2[j][nc+1],f3[j][nc+1])
+
+    im = Image.fromarray(oi)
+    im.show()
